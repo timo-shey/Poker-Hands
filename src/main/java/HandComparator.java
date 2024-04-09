@@ -21,12 +21,11 @@ public class HandComparator implements Comparator<Hand> {
 
         Map<Predicate<List<Card>>, Integer> handRanks = createHandRanksMap();
 
-        for (Map.Entry<Predicate<List<Card>>, Integer> entry : handRanks.entrySet()) {
-            if (entry.getKey().test(cards)) {
-                return entry.getValue();
-            }
-        }
-        return 1;
+        return handRanks.entrySet().stream()
+            .filter(entry -> entry.getKey().test(cards))
+            .map(Map.Entry::getValue)
+            .findFirst()
+            .orElse(1);
     }
 
     private boolean isRoyalFlush(List<Card> cards) {

@@ -1,33 +1,39 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        String card1 = "2D";
-        String card2 = "2H";
-        String card3 = "2S";
-        String card4 = "2C";
-        String card5 = "7D";
+        String filePath = "src/main/resources/poker.txt";
+        AtomicInteger player1Wins = new AtomicInteger();
 
-        String card6 = "2D";
-        String card7 = "2H";
-        String card8 = "2S";
-        String card9 = "5C";
-        String card10 = "7D";
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
+            br.lines().forEach(line -> {
+                List<Card> cards = Arrays.stream(line.split(" "))
+                    .map(card -> new Card(card.charAt(0), card.charAt(1)))
+                    .toList();
 
-        Hand player1Hand = Hand.createHandFromString(card1 + " " + card2 + " " + card3 + " " + card4 + " " + card5);
-        Hand player2Hand = Hand.createHandFromString(card6 + " " + card7 + " " + card8 + " " + card9 + " " + card10);
+                Hand player1Hand = Hand.createHandFromString(cards.subList(0, 5).toString());
+                Hand player2Hand = Hand.createHandFromString(cards.subList(5, 10).toString());
 
-        HandComparator handComparator = new HandComparator();
-        int result = handComparator.compare(player1Hand, player2Hand);
+                HandComparator comparator = new HandComparator();
+                int result = comparator.compare(player1Hand, player2Hand);
 
-        if (result > 0) {
-            System.out.println("Player 1 wins");
-        } else if (result < 0) {
-            System.out.println("Player 2 wins");
-        } else {
-            System.out.println("Draw");
+                if (result > 0) {
+                    player1Wins.getAndIncrement();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        System.out.println("Player 1 wins: " + player1Wins + " hands.");
 
     }
 }
