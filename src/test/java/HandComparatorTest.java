@@ -1,7 +1,6 @@
+import hand.Hand;
+import hand.HandComparator;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,10 +8,10 @@ class HandComparatorTest {
 
     @Test
     void testCompare_HighCard() {
-//        Hand hand1 = Hand.createHandFromString("2H 4D 6S 8C TH"); // Ten High card.Card
+//        hand.Hand hand1 = hand.Hand.createHandFromString("2H 4D 6S 8C TH"); // Ten High card.Card
         Hand hand1 = Hand.createHandFromString("3H 7H 6S KC JS");
         Hand hand2 = Hand.createHandFromString("QH TD JC 2D 8S");
-//        Hand hand2 = Hand.createHandFromString("3H 5D 7S 9C JH"); // Jack High card.Card
+//        hand.Hand hand2 = hand.Hand.createHandFromString("3H 5D 7S 9C JH"); // Jack High card.Card
 
         HandComparator comparator = new HandComparator();
         int result = comparator.compare(hand1, hand2);

@@ -1,4 +1,6 @@
 import card.Card;
+import hand.Hand;
+import hand.HandComparator;
 
 import java.io.BufferedReader;
 import java.io.IOException;

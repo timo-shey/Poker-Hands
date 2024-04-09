@@ -1,4 +1,7 @@
+package hand;
+
 import card.Card;
+import hand.Hand;
 
 import java.util.*;
 import java.util.function.Predicate;
