@@ -1,3 +1,5 @@
+package card;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -6,6 +8,6 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class Card {
-    private char rank;
-    private char suit;
+    private Rank rank;
+    private Suit suit;
 }
