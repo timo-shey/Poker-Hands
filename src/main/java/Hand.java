@@ -1,18 +1,22 @@
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
-@AllArgsConstructor
 @Getter
+@ToString
+@AllArgsConstructor
 public class Hand {
     private List<Card> cards;
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Card card : cards) {
-            sb.append(card.toString()).append(" ");
+    public static Hand createHandFromString(String handString) {
+        List<Card> cards = new ArrayList<>();
+        for (int i = 0; i < handString.length(); i += 3) {
+            char rank = handString.charAt(i);
+            char suit = handString.charAt(i + 1);
+            cards.add(new Card(rank, suit));
         }
-        return sb.toString().trim();
+        return new Hand(cards);
     }
 }
