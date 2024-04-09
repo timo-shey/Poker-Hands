@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -18,27 +19,14 @@ public class HandComparator implements Comparator<Hand> {
         List<Card> cards = hand.getCards();
         cards.sort(Comparator.comparing(Card::getRank));
 
-        if (isRoyalFlush(cards)) {
-            return 10;
-        } else if (isStraightFlush(cards)) {
-            return 9;
-        } else if (isFourOfAKind(cards)) {
-            return 8;
-        } else if (isFullHouse(cards)) {
-            return 7;
-        } else if (isFlush(cards)) {
-            return 6;
-        } else if (isStraight(cards)) {
-            return 5;
-        } else if (isThreeOfAKind(cards)) {
-            return 4;
-        } else if (isTwoPair(cards)) {
-            return 3;
-        } else if (isOnePair(cards)) {
-            return 2;
-        } else {
-            return 1;
+        Map<Predicate<List<Card>>, Integer> handRanks = createHandRanksMap();
+
+        for (Map.Entry<Predicate<List<Card>>, Integer> entry : handRanks.entrySet()) {
+            if (entry.getKey().test(cards)) {
+                return entry.getValue();
+            }
         }
+        return 1;
     }
 
     private boolean isRoyalFlush(List<Card> cards) {
@@ -66,7 +54,6 @@ public class HandComparator implements Comparator<Hand> {
         return IntStream.range(1, cards.size())
             .allMatch(i -> cards.get(i).getRank() - cards.get(i - 1).getRank() == 1);
     }
-
 
     private boolean isThreeOfAKind(List<Card> cards) {
         return hasNOfAKind(cards, 3);
@@ -108,5 +95,20 @@ public class HandComparator implements Comparator<Hand> {
             .filter(result -> result != 0)
             .findFirst()
             .orElse(0);
+    }
+
+    private Map<Predicate<List<Card>>, Integer> createHandRanksMap() {
+        Map<Predicate<List<Card>>, Integer> handRanks = new LinkedHashMap<>();
+        handRanks.put(this::isRoyalFlush, 10);
+        handRanks.put(this::isStraightFlush, 9);
+        handRanks.put(this::isFourOfAKind, 8);
+        handRanks.put(this::isFullHouse, 7);
+        handRanks.put(this::isFlush, 6);
+        handRanks.put(this::isStraight, 5);
+        handRanks.put(this::isThreeOfAKind, 4);
+        handRanks.put(this::isTwoPair, 3);
+        handRanks.put(this::isOnePair, 2);
+
+        return handRanks;
     }
 }
