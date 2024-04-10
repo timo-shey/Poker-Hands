@@ -8,6 +8,11 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class Card {
-    private Rank rank;
-    private Suit suit;
+    public final int rank;
+    public final int suit;
+
+    public Card(String str) {
+        this.rank = "23456789TJQKA".indexOf(str.charAt(0));
+        this.suit = "SHCD".indexOf(str.charAt(1));
+    }
 }
