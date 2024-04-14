@@ -12,6 +12,8 @@ This problem was solved using Object-Oriented Programming (OOP) style to ensure 
 
 - **Hand Class:** Represents a hand of five cards. It contains an array of Card objects and provides a `getScore()` method to calculate the score of the hand using the HandService interface. The constructor creates a Hand object from an array of strings representing Card values (rank and suit).
 
+- **Suit Enum:** Represents the suits present in a deck of cards(Spades, Hearts, Clubs, Diamonds). 
+
 - **Hand Service Interface:** An abstraction of the service used to calculate the score of a hand, with a `getScore()` method that takes an array of Card objects.
 
 - **Hand Service Implementation Class:** Implements the HandService interface, following poker rules to determine the score of a hand.
